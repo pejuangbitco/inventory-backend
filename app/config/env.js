@@ -4,7 +4,7 @@ const env = {
     username: 'root',
     password: '',
     host: 'localhost',
-    dialect: 'mysql',
+    dialect: 'postgres',
     pool: {
       max: 5,
       min: 0,
