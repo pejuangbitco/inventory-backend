@@ -16,7 +16,7 @@ require('./app/route/customer.route.js')(app);
 var server = app.listen(8081, function () {
  
   var host = server.address().address
-  var port = server.address().port
+  var port = process.env.PORT || 5000
  
   console.log("App listening at http://%s:%s", host, port)
 })
