@@ -24,8 +24,8 @@ exports.findAll = (req, res) => {
 };
  
 // Find a Customer by Id
-exports.findById = (req, res) => {  
-  Customer.findById(req.params.customerId).then(customer => {
+exports.findByPk = (req, res) => {  
+  Customer.findByPk(req.params.customerId).then(customer => {
     res.send(customer);
   })
 };

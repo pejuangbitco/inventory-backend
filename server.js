@@ -11,7 +11,7 @@ db.sequelize.sync({force: true}).then(() => {
 });
  
 require('./app/route/customer.route.js')(app);
- 
+require('./app/route/barang.route')(app); 
 // Create a Server
 var server = app.listen(process.env.PORT || 5000, function () {
  
