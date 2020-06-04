@@ -1,7 +1,9 @@
 var express = require('express');
+var cors = require('cors');
 var app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.json())
+app.use(cors())
  
 const db = require('./app/config/db.config.js');
   
