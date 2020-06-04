@@ -3,32 +3,23 @@ const Barang = db.barang;
 
 //post a barang
 exports.create = (req, res) => {
-    if(req==null) {
-        Barang.create({
-            nama_barang: req.body.nama_barang,
-            jumlah_barang: req.body.jumlah_barang,
-            jenis_barang: req.body.jenis_barang    
-        }).then(barang => {
-            res.json({
-                'status': 'OK',
-                'messages': 'Success insert data',
-                'data': barang
-            });
-        }).catch(err => {
-            res.json({
-                'status': 'ERROR',
-                'messages': err.messages,
-                'data': {}
-            }); 
+    Barang.create({
+        nama_barang: req.body.nama_barang,
+        jumlah_barang: req.body.jumlah_barang,
+        jenis_barang: req.body.jenis_barang    
+    }).then(barang => {
+        res.json({
+            'status': 'OK',
+            'messages': 'Success insert data',
+            'data': barang
         });
-    } else {
+    }).catch(err => {
         res.json({
             'status': 'ERROR',
-            'messages': 'Bad Request',
+            'messages': err.messages,
             'data': {}
         }); 
-    }
-    
+    });
 }
 
 exports.findAll = (req, res) => {
