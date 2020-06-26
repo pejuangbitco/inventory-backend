@@ -10,6 +10,7 @@ const db = require('./config/db.config');
 require('./route/customer.route.js')(app);
 require('./route/barang.route.js')(app); 
 require('./route/user.route.js')(app); 
+
 // Create a Server
 var server = app.listen(process.env.PORT || 5000, function () {
  
