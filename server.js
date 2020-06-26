@@ -6,7 +6,9 @@ app.use(bodyParser.json())
 app.use(cors())
 
 const db = require('./config/db.config');
-  
+db.sequelize.sync({force: true}).then(() => {
+  console.log('Drop and Resync with { force: true }');
+});
 require('./route/customer.route.js')(app);
 require('./route/barang.route.js')(app); 
 require('./route/user.route.js')(app); 
