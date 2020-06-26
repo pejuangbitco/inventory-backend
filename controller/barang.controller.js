@@ -1,107 +1,117 @@
 const db = require('../config/db.config.js');
-const Barang = db.barang;
+const barang = db.barang;
 
-//post a barang
-exports.create = (req, res) => {
-    Barang.create({
-        nama_barang: req.body.nama_barang,
-        jumlah_barang: req.body.jumlah_barang,
-        jenis_barang: req.body.jenis_barang    
-    }).then(barang => {
+exports.list = (req, res) => {
+    try {
+        barang.findAll().then(result => {
         res.json({
-            'status': 'OK',
-            'messages': 'Success insert data',
-            'data': barang
+            status: 'OK',
+            messages: '',
+            data: result
         });
-    }).catch(err => {
-        res.json({
-            'status': 'ERROR',
-            'messages': err.messages,
-            'data': {}
-        }); 
-    });
-}
-
-exports.findAll = (req, res) => {
-    Barang.findAll().then(barang => {
-        res.json({
-            'status': 'OK',
-            'messages': '',
-            'data': barang
         });
-    }).catch(err => {
-        res.json({
-            'status': 'ERROR',
-            'messages': err.messages,
-            'data': {}
-        }); 
-    });
-}
+    } catch (err) {
+        res.status(500).json({
+        status: 'ERROR',
+        messages: err,
+        data: {}
+        });
+    }
+};
 
-exports.findByPk = (req, res) => {    
-    Barang.findByPk(req.params.barangId).then(barang => {
-        if(barang!=null) {
-            res.json({
-                'status': 'OK',
-                'messages': '',
-                'data': barang
-            });    
-        } else {
-            res.status(404).json({
-                'status': 'OK',
-                'messages': 'Not Found!',
-                'data': barang
-            });
-        }        
-    }).catch(err => {
+// Find a User by Id
+exports.get = (req, res) => {  
+    barang.findOne({
+        where: { id: req.params.id }
+    }).then( result => {      
+        if( result === null ) {
+        return res.status(404).json({
+            status: 'ERROR',
+            messages: 'Resource Not Found!',
+            data: {}
+        });
+        }
         res.json({
-            'status': 'ERROR',
-            'messages': err.messages,
-            'data': {}
+        status: 'OK',
+        messages: '',
+        data: result
+        });
+    }).catch( err => {
+        res.status(500).json({
+        status: 'ERROR',
+        messages: err,
+        data: {}
         });
     });
-}
+};
 
+// Post a User
+exports.create = (req, res) => {  
+    let {
+        nama_barang
+    } = req.body
+
+    barang.create({  
+        nama_barang: nama_barang,
+    }).then(result => {    
+        res.json({
+        status: 'OK',
+        messages: 'Success insert data.',
+        data: result
+        });
+    }).catch( err => {
+        res.status(400).json({
+        status: 'ERROR',
+        messages: err,
+        data: {}
+        });
+    });
+};
+// Update a User
 exports.update = (req, res) => {
-    Barang.update({
-        nama_barang: req.body.nama_barang,
-        jumlah_barang: req.body.jumlah_barang,
-        jenis_barang: req.body.jenis_barang 
-    }, {
-        where: {
-            id: req.params.barangId
-        }
-    }).then(() => {
-        res.json({
-            'status': 'OK',
-            'messages': 'Success update data',
-            'data': {}
-        });
-    }).catch(err => {
-        res.json({
-            'status': 'ERROR',
-            'messages': err.messages,
-            'data': {}
-        }); 
-    });
-}
+    let {
+        nama_barang
+    } = req.body
 
-exports.delete = (req, res) => {
-    Barang.destroy({
-        where: {
-            id: req.params.barangId
+    barang.update({
+        nama_barang: nama_barang
+    }, { 
+        where: {id: req.params.customerId} 
+    }).then(result => {
+        res.json({
+        status: 'OK',
+        messages: 'Success update data.',
+        data: {
+            id: req.params.id,
+            nama_barang: nama_barang
         }
-    }).then(() => {
-        res.json({
-            'status': 'OK',
-            'messages': 'Success delete data',
-            'data': {}
         });
-    }).catch(err => {
-        res.json({
-            'status': 'ERROR',
-            'messages': err.messages,
-            'data': {}
-        }); 
+    }).catch( err => {
+        res.status(400).json({
+        status: 'ERROR',
+        messages: err,
+        data: {}
+        });
     });
-}
+};
+
+// Delete a User by Id
+exports.delete = (req, res) => {  
+barang.destroy({
+    where: {
+    id: req.params.id
+    }
+}).then( result => {
+    res.json({
+    status: 'OK',
+    messages: 'Success delete data.',
+    data: {}
+    });
+}).catch( err => {
+    res.status(500).json({
+    status: 'ERROR',
+    messages: err,
+    data: {}
+    });
+});
+};

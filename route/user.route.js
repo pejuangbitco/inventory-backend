@@ -11,7 +11,7 @@ module.exports = function(app) {
     //   })
        
     // const upload = multer({ storage: storage })
-    const user = require('../controller/user.controller.js');
+    const user = require('../controller/user.controller');
     const auth  = require('../controller/auth.controller.js');
  
     // Create a new Customer
@@ -21,13 +21,13 @@ module.exports = function(app) {
     app.get('/api/users', user.list);
  
     // Retrieve a single Customer by Id
-    app.get('/api/users/:customerId', user.get);
+    app.get('/api/users/:id', user.get);
  
     // Update a Customer with Id
-    app.put('/api/users/:customerId', user.update);
+    app.put('/api/users/:id', user.update);
  
     // Delete a Customer with Id
-    app.delete('/api/users/:customerId', user.delete);
+    app.delete('/api/users/:id', user.delete);
 
     //auth
     app.post('/api/login', auth.login);
