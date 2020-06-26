@@ -1,4 +1,4 @@
-const env = require('./example.env.js');
+const env = require('./config');
  
 const Sequelize = require('sequelize');
 const sequelize = new Sequelize(env.database, env.username, env.password, {
@@ -22,5 +22,5 @@ db.sequelize = sequelize;
 //Models/tables
 db.customers = require('../model/customer.model.js')(sequelize, Sequelize);
 db.barang    = require('../model/barang.model.js')(sequelize, Sequelize); 
-db.users     = require('../model/user.model.js')(sequelize, Sequelize); 
+db.user     = require('../model/user.model')(sequelize, Sequelize); 
 module.exports = db;

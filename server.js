@@ -4,17 +4,12 @@ var app = express();
 var bodyParser = require('body-parser');
 app.use(bodyParser.json())
 app.use(cors())
- 
-const db = require('./app/config/db.config.js');
+
+const db = require('./config/db.config');
   
-// force: true will drop the table if it already exists
-db.sequelize.sync({force: false}).then(() => {
-  console.log('Drop and Resync with { force: true }');
-});
- 
-require('./app/route/customer.route.js')(app);
-require('./app/route/barang.route.js')(app); 
-require('./app/route/user.route.js')(app); 
+require('./route/customer.route.js')(app);
+require('./route/barang.route.js')(app); 
+require('./route/user.route.js')(app); 
 // Create a Server
 var server = app.listen(process.env.PORT || 5000, function () {
  
