@@ -2,7 +2,7 @@
 
 let bar = [];
 let i = 1;
-for(i=1; i<21; i++) {
+for(i=1; i<112; i++) {
   let nama = 'barang '+i
   bar.push({
     nama_barang: nama
