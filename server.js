@@ -12,7 +12,7 @@ const db = require('./config/db.config');
 
 require('./route/barang.route.js')(app); 
 require('./route/user.route.js')(app); 
-
+require('./route/trx.route.js')(app); 
 // Create a Server
 var server = app.listen(process.env.PORT || 5000, function () {
  

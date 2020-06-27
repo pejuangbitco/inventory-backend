@@ -1,20 +1,17 @@
 'use strict';
 
+let bar = [];
+let i = 1;
+for(i=1; i<21; i++) {
+  let nama = 'barang '+i
+  bar.push({
+    nama_barang: nama
+  });
+}
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.bulkInsert('barang', [{
-        nama_barang: 'pensil'
-      }, {
-        nama_barang: 'buku'
-      }, {
-        nama_barang: 'papan tulis'
-      }, {
-        nama_barang: 'meja'
-      }, {
-        nama_barang: 'sapu'
-      }, {
-        nama_barang: 'mouse'
-      }], {});
+    return queryInterface.bulkInsert('barang', bar, {});
   },
 
   down: (queryInterface, Sequelize) => {

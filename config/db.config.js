@@ -20,6 +20,8 @@ db.Sequelize = Sequelize;
 db.sequelize = sequelize;
  
 //Models/tables
-db.barang    = require('../model/barang.model.js')(sequelize, Sequelize); 
-db.user     = require('../model/user.model')(sequelize, Sequelize); 
+db.barang    = require('../models/barang.model.js')(sequelize, Sequelize); 
+db.user     = require('../models/user.model')(sequelize, Sequelize);
+db.trx     = require('../models/trx.model')(sequelize, Sequelize);
+db.detail_trx = require('../models/detail_trx.model')(sequelize, Sequelize); 
 module.exports = db;
