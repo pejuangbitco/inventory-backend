@@ -9,8 +9,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   trx.associate = function(models) {
     trx.hasMany(models.detail_trx, {
-      foreignKey: 'trx_id',
-      targetKey: 'id'
+      foreignKey: 'trx_id'
     });
   };
   return trx;

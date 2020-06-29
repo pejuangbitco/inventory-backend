@@ -8,8 +8,6 @@ module.exports = (sequelize, DataTypes) => {
     tableName: 'detail_trx',
     timestamps: false
   });
-  detail_trx.associate = function(models) {
-    // associations can be defined here
-  };
+
   return detail_trx;
 };

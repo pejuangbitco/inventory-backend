@@ -1,6 +1,16 @@
 const db = require('../config/db.config.js');
 const { trx, detail_trx } = db;
 
+exports.coba = (req, res) => {
+  trx.findAll({
+    include: 'detail_trx'
+  }).then(rst => {
+    res.send(rst)
+  }).catch(err => {
+    res.send(err)
+  })
+}
+
 exports.list = (req, res) => {
   try {
     trx.findAll({
@@ -22,9 +32,9 @@ exports.list = (req, res) => {
 };
 
 exports.get = (req, res) => {  
+  try {
   trx.findOne({
-    where: { id: req.params.id },
-    include: detail_trx
+    where: { id: req.params.id }    
   }).then( result => {      
     if( result === null ) {
       return res.status(404).json({
@@ -33,11 +43,26 @@ exports.get = (req, res) => {
         data: {}
       });
     }
-    res.json({
-      status: 'OK',
-      messages: '',
-      data: result
-    });
+    // console.log(result)
+    // res.json({
+    //   status: 'OK',
+    //   messages: '',
+    //   data: result
+    // });
+    detail_trx.findAll({
+      where: {
+        trx_id: result.id
+      }
+    }).then(final => {
+      res.json({
+        status: 'OK',
+        messages: '',
+        data: {
+          tanggal: result.tanggal,
+          detail_trx: final
+        }
+      });
+    });    
   }).catch( err => {
     res.status(500).json({
       status: 'ERROR',
@@ -45,12 +70,14 @@ exports.get = (req, res) => {
       data: {}
     });
   });
+  } catch (bb) {
+    res.send(bb)
+  }
 };
 
 exports.create = (req, res) => {  
     let {
-      nama_barang,
-      jumlah_barang,
+      barang,
       user_id
     } = req.body
 
@@ -58,16 +85,18 @@ exports.create = (req, res) => {
       user_id: user_id,
       tanggal: new Date()
     }).then(result => {
-      detail_trx.create({
-        trx_id: result.id,
-        nama_barang: nama_barang, 
-        jumlah_barang: jumlah_barang 
-      }).then( rs => {
-        res.json({
-          status: 'OK',
-          messages: 'Success insert data.',
-          data: result
-        });
+      barang.forEach((item, index) => {
+        detail_trx.create({
+          trx_id: result.id,
+          nama_barang: item.nama_barang, 
+          jumlah_barang: item.jumlah_barang 
+        });  
+      });
+      
+      res.json({
+        status: 'OK',
+        messages: 'Success insert data.',
+        data: result
       });
     }).catch( err => {
       res.status(400).json({
