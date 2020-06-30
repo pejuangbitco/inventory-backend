@@ -119,12 +119,12 @@ exports.update = (req, res) => {
       where: {id: req.params.id} 
   }).then(result => {
       res.json({
-      status: 'OK',
-      messages: 'Success update data.',
-      data: {
-          id: req.params.id,
-          nama_barang: nama_barang
-      }
+        status: 'OK',
+        messages: 'Success update data.',
+        data: {
+            id: req.params.id,
+            status: status
+        }
       });
   }).catch( err => {
       res.status(400).json({
