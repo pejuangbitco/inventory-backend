@@ -2,7 +2,8 @@
 module.exports = (sequelize, DataTypes) => {
   const trx = sequelize.define('trx', {
     user_id: DataTypes.INTEGER,
-    tanggal: DataTypes.DATE
+    tanggal: DataTypes.DATE,
+    status: DataTypes.STRING
   }, {
     timestamps: false,
     tableName: 'trx'

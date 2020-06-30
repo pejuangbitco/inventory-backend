@@ -83,6 +83,7 @@ exports.create = (req, res) => {
 
     trx.create({        
       user_id: user_id,
+      status: "pending",
       tanggal: new Date()
     }).then(result => {
       barang.forEach((item, index) => {
@@ -108,48 +109,48 @@ exports.create = (req, res) => {
 };
 
 exports.update = (req, res) => {
-    let {
-        nama_barang
-    } = req.body
+  let {
+      status
+  } = req.body
 
-    trx.update({
-        nama_barang: nama_barang
-    }, { 
-        where: {id: req.params.customerId} 
-    }).then(result => {
-        res.json({
-        status: 'OK',
-        messages: 'Success update data.',
-        data: {
-            id: req.params.id,
-            nama_barang: nama_barang
-        }
-        });
-    }).catch( err => {
-        res.status(400).json({
-        status: 'ERROR',
-        messages: err,
-        data: {}
-        });
-    });
+  trx.update({
+      status: status
+  }, { 
+      where: {id: req.params.customerId} 
+  }).then(result => {
+      res.json({
+      status: 'OK',
+      messages: 'Success update data.',
+      data: {
+          id: req.params.id,
+          nama_barang: nama_barang
+      }
+      });
+  }).catch( err => {
+      res.status(400).json({
+      status: 'ERROR',
+      messages: err,
+      data: {}
+      });
+  });
 };
 
 exports.delete = (req, res) => {  
-trx.destroy({
-    where: {
-    id: req.params.id
-    }
-}).then( result => {
-    res.json({
-    status: 'OK',
-    messages: 'Success delete data.',
-    data: {}
-    });
-}).catch( err => {
-    res.status(500).json({
-    status: 'ERROR',
-    messages: err,
-    data: {}
-    });
-});
+  trx.destroy({
+      where: {
+      id: req.params.id
+      }
+  }).then( result => {
+      res.json({
+      status: 'OK',
+      messages: 'Success delete data.',
+      data: {}
+      });
+  }).catch( err => {
+      res.status(500).json({
+      status: 'ERROR',
+      messages: err,
+      data: {}
+      });
+  });
 };
