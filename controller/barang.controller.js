@@ -76,7 +76,7 @@ exports.update = (req, res) => {
     barang.update({
         nama_barang: nama_barang
     }, { 
-        where: {id: req.params.customerId} 
+        where: {id: req.params.id} 
     }).then(result => {
         res.json({
         status: 'OK',

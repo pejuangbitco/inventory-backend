@@ -116,7 +116,7 @@ exports.update = (req, res) => {
   trx.update({
       status: status
   }, { 
-      where: {id: req.params.customerId} 
+      where: {id: req.params.id} 
   }).then(result => {
       res.json({
       status: 'OK',
