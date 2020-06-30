@@ -11,7 +11,7 @@ exports.login = (req, res) => {
     if(username==null || password==null) {
         return res.json({
             status: 'OK',
-            message: 'username atau password kosong!',
+            messages: 'username atau password kosong!',
             data: {}
         });
     }
@@ -24,19 +24,19 @@ exports.login = (req, res) => {
         if(result===null) {
             return res.json({
                 status: 'OK',
-                message: 'username atau password salah!',
+                messages: 'username atau password salah!',
                 data: {}
             });
         }
         res.json({
             status: 'OK',
-            message: 'Login Sukses!',
+            messages: 'Login Sukses!',
             data: result
         });
     }).catch(err => {
         res.json({
             status: 'ERROR',
-            message: 'Bad request!!',
+            messages: 'Bad request!!',
             data: {}
         });
     });
@@ -52,18 +52,18 @@ exports.login = (req, res) => {
     //             email: user.email
     //         }
     //         res.json({
-    //             'message': 'login successfully',
+    //             'messages': 'login successfully',
     //             'token': jwt.sign(data, 'secret')                
     //         });
     //     } else {
     //         res.json({
-    //             'message': 'login failed'                              
+    //             'messages': 'login failed'                              
     //         });
     //     }
     // }).catch(err => {
     //     res.json({
     //         'status': 'ERROR',
-    //         'messages': err.messages,
+    //         'messagess': err.messagess,
     //         'data': {}
     //     });
     // });
