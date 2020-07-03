@@ -5,11 +5,6 @@ var bodyParser = require('body-parser');
 app.use(bodyParser.json())
 app.use(cors())
 
-const db = require('./config/db.config');
-// db.sequelize.sync({force: false}).then(() => {
-//   console.log('Drop and Resync with { force: true }');
-// });
-
 require('./route/barang.route.js')(app); 
 require('./route/user.route.js')(app); 
 require('./route/trx.route.js')(app); 

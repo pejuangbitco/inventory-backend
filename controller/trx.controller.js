@@ -1,4 +1,8 @@
 const db = require('../config/db.config.js');
+const moment = require('moment');
+moment.tz.setDefault("Asia/Jakarta");
+moment.defaultFormat = "YYYY-MM-DD HH:mm:ss";
+
 const { trx, detail_trx } = db;
 
 exports.coba = (req, res) => {
@@ -42,13 +46,8 @@ exports.get = (req, res) => {
         messages: 'Resource Not Found!',
         data: {}
       });
-    }
-    // console.log(result)
-    // res.json({
-    //   status: 'OK',
-    //   messages: '',
-    //   data: result
-    // });
+    }    
+    
     detail_trx.findAll({
       where: {
         trx_id: result.id
@@ -58,7 +57,8 @@ exports.get = (req, res) => {
         status: 'OK',
         messages: '',
         data: {
-          tanggal: result.tanggal,
+          tanggal: moment(result.tanggal).format(),
+          status: result.status,
           detail_trx: final
         }
       });
@@ -84,7 +84,7 @@ exports.create = (req, res) => {
     trx.create({        
       user_id: user_id,
       status: "pending",
-      tanggal: new Date()
+      tanggal: moment().format()
     }).then(result => {
       barang.forEach((item, index) => {
         detail_trx.create({
