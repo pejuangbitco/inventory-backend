@@ -93,7 +93,7 @@ exports.create = (req, res) => {
           jumlah_barang: item.jumlah_barang 
         });  
       });
-      
+      result.tanggal = moment(result.tanggal).format();
       res.json({
         status: 'OK',
         messages: 'Success insert data.',
