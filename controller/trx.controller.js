@@ -20,7 +20,9 @@ exports.list = async (req, res) => {
   try {
     let sql = 'SELECT trx.id, trx.status, user.nama, trx.tanggal FROM trx \
     JOIN user ON user.id=trx.user_id';
+    let rep = null;
     if(req.query.user_id) {
+      console.log(req.query.user_id)
       sql = 'SELECT trx.id, trx.status, user.nama, trx.tanggal FROM trx \
       JOIN user ON user.id=trx.user_id where trx.user_id= :user_id';
       rep = {
