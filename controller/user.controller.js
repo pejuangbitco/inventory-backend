@@ -5,7 +5,9 @@ const user = db.user;
 // FETCH all Customers
 exports.list = (req, res) => {
   try {
-    user.findAll().then(result => {
+    user.findAll({
+      order: [['nama', 'ASC']]
+    }).then(result => {
       res.json({
         status: 'OK',
         messages: '',

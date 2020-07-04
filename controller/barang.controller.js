@@ -3,12 +3,14 @@ const barang = db.barang;
 
 exports.list = (req, res) => {
     try {
-        barang.findAll().then(result => {
-        res.json({
-            status: 'OK',
-            messages: '',
-            data: result
-        });
+        barang.findAll({
+            order: [['nama_barang', 'ASC']]
+        }).then(result => {
+            res.json({
+                status: 'OK',
+                messages: '',
+                data: result
+            });
         });
     } catch (err) {
         res.status(500).json({

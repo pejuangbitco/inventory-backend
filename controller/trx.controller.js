@@ -1,9 +1,10 @@
 const db = require('../config/db.config.js');
+const { QueryTypes } = require('sequelize');
 const moment = require('moment');
 moment.tz.setDefault("Asia/Jakarta");
-moment.defaultFormat = "YYYY-MM-DD HH:mm:ss";
+moment.defaultFormat = "YYYY-MM-DD HH:mm";
 
-const { trx, detail_trx } = db;
+const { trx, detail_trx, user } = db;
 
 exports.coba = (req, res) => {
   trx.findAll({
@@ -15,17 +16,31 @@ exports.coba = (req, res) => {
   })
 }
 
-exports.list = (req, res) => {
+exports.list = async (req, res) => {
   try {
-    trx.findAll({
-      where: req.query
-    }).then(result => {
+    let sql = 'SELECT trx.id, trx.status, user.nama, trx.tanggal FROM trx \
+    JOIN user ON user.id=trx.user_id';
+    if(req.query.user_id) {
+      sql = 'SELECT trx.id, trx.status, user.nama, trx.tanggal FROM trx \
+      JOIN user ON user.id=trx.user_id where trx.user_id= :user_id';
+      rep = {
+        replacements: req.query
+      }
+    }
+    let trxUser = await db.sequelize.query(sql,rep)
+      .then(result => {
+        let hasil = result[0].map(row => {
+          row.tanggal = moment(result[0][0].tanggal).format();
+          return row
+        })        
+        
+        return hasil;
+      });
       res.json({
         status: 'OK',
         messages: '',
-        data: result
+        data: trxUser
       });
-    });
   } catch (err) {
     res.status(500).json({
       status: 'ERROR',
@@ -52,13 +67,15 @@ exports.get = (req, res) => {
       where: {
         trx_id: result.id
       }
-    }).then(final => {
+    }).then(async final => {
+      let userTrx = await user.findOne({where: {id: result.user_id}}); 
       res.json({
         status: 'OK',
         messages: '',
         data: {
-          tanggal: moment(result.tanggal).format(),
+          tanggal: result.tanggal,
           status: result.status,
+          user: userTrx,
           detail_trx: final
         }
       });
@@ -93,7 +110,7 @@ exports.create = (req, res) => {
           jumlah_barang: item.jumlah_barang 
         });  
       });
-      result.tanggal = moment(result.tanggal).format();
+      
       res.json({
         status: 'OK',
         messages: 'Success insert data.',
