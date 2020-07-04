@@ -100,8 +100,7 @@ exports.create = (req, res) => {
 
     trx.create({        
       user_id: user_id,
-      status: "pending",
-      tanggal: moment().format()
+      status: "pending"
     }).then(result => {
       barang.forEach((item, index) => {
         detail_trx.create({
