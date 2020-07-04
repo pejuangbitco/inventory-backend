@@ -18,19 +18,19 @@ exports.coba = (req, res) => {
 
 exports.list = async (req, res) => {
   try {
-    let sql = 'SELECT trx.id, trx.status, user.nama, trx.tanggal FROM trx INNER JOIN user ON user.id=trx.user_id';
+    let sql = 'SELECT trx.id, trx.status, user.nama, trx.tanggal FROM trx INNER JOIN user ON user.id=trx.user_id ORDER BY trx.tanggal DESC';
     
     if(req.query.user_id) {
       console.log(req.query.user_id)
-      sql = 'SELECT trx.id, trx.status, user.nama, trx.tanggal FROM trx INNER JOIN user ON user.id=trx.user_id where trx.user_id= :user_id';
+      sql = 'SELECT trx.id, trx.status, user.nama, trx.tanggal FROM trx INNER JOIN user ON user.id=trx.user_id where trx.user_id= :user_id ORDER BY trx.tanggal DESC';
     }
     let trxUser = await db.sequelize.query(sql,{
       replacements: req.query
     })
       .then(result => {
-        console.log(result)
+        
         let hasil = result[0].map(row => {
-          row.tanggal = moment(result[0][0].tanggal).format();
+          row.tanggal = moment(row.tanggal).format();
           return row
         })        
         
